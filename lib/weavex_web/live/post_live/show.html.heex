@@ -1,0 +1,37 @@
+<h1>Show Post</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal WeavexWeb.PostLive.FormComponent,
+    id: @post.id,
+    title: @page_title,
+    action: @live_action,
+    post: @post,
+    return_to: Routes.post_show_path(@socket, :show, @post) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @post.title %>
+  </li>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @post.content %>
+  </li>
+
+  <li>
+    <strong>Published at:</strong>
+    <%= @post.published_at %>
+  </li>
+
+  <li>
+    <strong>Is published:</strong>
+    <%= @post.is_published %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.post_show_path(@socket, :edit, @post), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.post_index_path(@socket, :index) %></span>

@@ -1,5 +1,5 @@
 <div id="posts">
   <%= for post <- @posts do %>
-    <%= live_component @socket, WeavexWeb.PostLive.PostPublicComponent, id: post.id, post: post %>
+    <%= live_component @socket, WeavexWeb.PostLive.PostComponent, id: post.id, post: post %>
   <% end %>
 </div>

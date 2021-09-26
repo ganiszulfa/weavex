@@ -3,14 +3,14 @@ defmodule WeavexWeb.PostLive.PostComponent do
 
   def render(assigns) do
     ~L"""
-    <div id={"post-#{@post.id}"} style="margin-bottom:24px">
-      <h4><%= @post.title %></h4>
+    <div id={"post-#{@post.id}"} class="post">
+      <h2 class="title">
+      <%= live_redirect @post.title, to: Routes.post_show_public_path(@socket, :show_public, Slugger.slugify_downcase(String.slice(@post.title, 0..24)), @post.id) %>
+      </h2>
       <div><em><%= @post.published_at %></em></div>
+      <div title="content"><%= @post.content %></div>
 
       <div>
-        <span><%= live_redirect "Show", to: Routes.post_show_path(@socket, :show, @post) %></span>
-        <span><%= live_patch "Edit", to: Routes.post_index_path(@socket, :edit, @post) %></span>
-        <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @post.id, data: [confirm: "Are you sure?"] %></span>
       </div>
     </div>
     """

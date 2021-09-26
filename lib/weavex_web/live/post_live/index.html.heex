@@ -1,3 +1,4 @@
+<h1>My Posts</h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal WeavexWeb.PostLive.FormComponent,
@@ -8,10 +9,35 @@
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>
 
-<div id="posts">
-  <%= for post <- @posts do %>
-    <%= live_component @socket, WeavexWeb.PostLive.PostComponent, id: post.id, post: post %>
-  <% end %>
-</div>
-
 <span><%= live_patch "New Post", to: Routes.post_index_path(@socket, :new) %></span>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>post</th>
+      <th>Is Published</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <%= for post <- @posts do %>
+      <tr id={"post-#{post.id}"}>
+        <td><%= post.id %></td>
+        <td>
+          <strong>
+            <%= post.title %>
+          </strong>
+        </td>
+        <td><%= post.is_published %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.post_show_path(@socket, :show, post) %></span>
+          <span><%= live_patch "Edit", to: Routes.post_index_path(@socket, :edit, post) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: post.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

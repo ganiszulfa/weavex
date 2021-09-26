@@ -62,4 +62,64 @@ defmodule Weavex.BlogTest do
       assert %Ecto.Changeset{} = Blog.change_post(post)
     end
   end
+
+  describe "pages" do
+    alias Weavex.Blog.Page
+
+    import Weavex.BlogFixtures
+
+    @invalid_attrs %{content: nil, is_published: nil, position: nil, title: nil}
+
+    test "list_pages/0 returns all pages" do
+      page = page_fixture()
+      assert Blog.list_pages() == [page]
+    end
+
+    test "get_page!/1 returns the page with given id" do
+      page = page_fixture()
+      assert Blog.get_page!(page.id) == page
+    end
+
+    test "create_page/1 with valid data creates a page" do
+      valid_attrs = %{content: "some content", is_published: true, position: 42, title: "some title"}
+
+      assert {:ok, %Page{} = page} = Blog.create_page(valid_attrs)
+      assert page.content == "some content"
+      assert page.is_published == true
+      assert page.position == 42
+      assert page.title == "some title"
+    end
+
+    test "create_page/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Blog.create_page(@invalid_attrs)
+    end
+
+    test "update_page/2 with valid data updates the page" do
+      page = page_fixture()
+      update_attrs = %{content: "some updated content", is_published: false, position: 43, title: "some updated title"}
+
+      assert {:ok, %Page{} = page} = Blog.update_page(page, update_attrs)
+      assert page.content == "some updated content"
+      assert page.is_published == false
+      assert page.position == 43
+      assert page.title == "some updated title"
+    end
+
+    test "update_page/2 with invalid data returns error changeset" do
+      page = page_fixture()
+      assert {:error, %Ecto.Changeset{}} = Blog.update_page(page, @invalid_attrs)
+      assert page == Blog.get_page!(page.id)
+    end
+
+    test "delete_page/1 deletes the page" do
+      page = page_fixture()
+      assert {:ok, %Page{}} = Blog.delete_page(page)
+      assert_raise Ecto.NoResultsError, fn -> Blog.get_page!(page.id) end
+    end
+
+    test "change_page/1 returns a page changeset" do
+      page = page_fixture()
+      assert %Ecto.Changeset{} = Blog.change_page(page)
+    end
+  end
 end

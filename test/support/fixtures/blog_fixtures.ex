@@ -20,4 +20,21 @@ defmodule Weavex.BlogFixtures do
 
     post
   end
+
+  @doc """
+  Generate a page.
+  """
+  def page_fixture(attrs \\ %{}) do
+    {:ok, page} =
+      attrs
+      |> Enum.into(%{
+        content: "some content",
+        is_published: true,
+        position: 42,
+        title: "some title"
+      })
+      |> Weavex.Blog.create_page()
+
+    page
+  end
 end

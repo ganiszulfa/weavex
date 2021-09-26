@@ -28,6 +28,8 @@ defmodule WeavexWeb.Router do
 
     live "/posts", PostLive.IndexPublic, :index_public
     live "/posts/:slug/:id", PostLive.ShowPublic, :show_public
+
+    live "/pages/:slug/:id", PageLive.ShowPublic, :show_public
   end
 
   scope "/admin", WeavexWeb do
@@ -39,6 +41,13 @@ defmodule WeavexWeb.Router do
 
     live "/posts/:id", PostLive.Show, :show
     live "/posts/:id/show/edit", PostLive.Show, :edit
+
+    live "/pages", PageLive.Index, :index
+    live "/pages/new", PageLive.Index, :new
+    live "/pages/:id/edit", PageLive.Index, :edit
+
+    live "/pages/:id", PageLive.Show, :show
+    live "/pages/:id/show/edit", PageLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

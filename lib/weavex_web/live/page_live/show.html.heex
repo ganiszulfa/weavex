@@ -1,0 +1,37 @@
+<h1>Show Page</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal WeavexWeb.PageLive.FormComponent,
+    id: @page.id,
+    title: @page_title,
+    action: @live_action,
+    page: @page,
+    return_to: Routes.page_show_path(@socket, :show, @page) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @page.title %>
+  </li>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @page.content %>
+  </li>
+
+  <li>
+    <strong>Is published:</strong>
+    <%= @page.is_published %>
+  </li>
+
+  <li>
+    <strong>Position:</strong>
+    <%= @page.position %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.page_show_path(@socket, :edit, @page), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.page_index_path(@socket, :index) %></span>

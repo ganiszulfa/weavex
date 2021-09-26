@@ -1,4 +1,4 @@
-<h1>Listing Pages</h1>
+<h1>My Pages</h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal WeavexWeb.PageLive.FormComponent,
@@ -8,6 +8,8 @@
     page: @page,
     return_to: Routes.page_index_path(@socket, :index) %>
 <% end %>
+
+<span><%= live_patch "New Page", to: Routes.page_index_path(@socket, :new) %></span>
 
 <table>
   <thead>
@@ -39,5 +41,3 @@
     <% end %>
   </tbody>
 </table>
-
-<span><%= live_patch "New Page", to: Routes.page_index_path(@socket, :new) %></span>

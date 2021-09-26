@@ -12,12 +12,11 @@ defmodule WeavexWeb.PostLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    post = Blog.get_post!(id)
+
     {:noreply,
      socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:post, Blog.get_post!(id))}
+     |> assign(:page_title, post.title)
+     |> assign(:post, post)}
   end
-
-  defp page_title(:show), do: "Show Post"
-  defp page_title(:edit), do: "Edit Post"
 end

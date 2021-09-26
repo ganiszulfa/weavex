@@ -23,6 +23,24 @@ defmodule WeavexWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/", WeavexWeb do
+    pipe_through [:browser]
+
+    live "/posts", PostLive.IndexPublic, :index_public
+    live "/posts/:slug/:id", PostLive.ShowPublic, :show_public
+  end
+
+  scope "/admin", WeavexWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live "/posts", PostLive.Index, :index
+    live "/posts/new", PostLive.Index, :new
+    live "/posts/:id/edit", PostLive.Index, :edit
+
+    live "/posts/:id", PostLive.Show, :show
+    live "/posts/:id/show/edit", PostLive.Show, :edit
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", WeavexWeb do
   #   pipe_through :api

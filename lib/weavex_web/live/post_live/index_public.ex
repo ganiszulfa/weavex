@@ -1,4 +1,4 @@
-defmodule WeavexWeb.PostLive.Index do
+defmodule WeavexWeb.PostLive.IndexPublic do
   use WeavexWeb, :live_view
 
   alias Weavex.Blog
@@ -28,7 +28,7 @@ defmodule WeavexWeb.PostLive.Index do
     |> assign(:post, %Post{})
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index_public, _params) do
     socket
     |> assign(:page_title, "Listing Posts")
     |> assign(:post, nil)

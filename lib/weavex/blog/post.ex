@@ -14,7 +14,8 @@ defmodule Weavex.Blog.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:title, :content, :published_at, :is_published])
-    |> validate_required([:title, :content, :published_at, :is_published])
+    |> cast(attrs, [:title, :content, :is_published])
+    |> validate_required([:title, :content, :is_published])
+    |> validate_length(:title, min: 2, max: 250)
   end
 end

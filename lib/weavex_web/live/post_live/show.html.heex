@@ -9,29 +9,7 @@
     return_to: Routes.post_show_path(@socket, :show, @post) %>
 <% end %>
 
-<ul>
-
-  <li>
-    <strong>Title:</strong>
-    <%= @post.title %>
-  </li>
-
-  <li>
-    <strong>Content:</strong>
-    <%= @post.content %>
-  </li>
-
-  <li>
-    <strong>Published at:</strong>
-    <%= @post.published_at %>
-  </li>
-
-  <li>
-    <strong>Is published:</strong>
-    <%= @post.is_published %>
-  </li>
-
-</ul>
+    <%= live_component @socket, WeavexWeb.PostLive.PostComponent, id: @post.id, post: @post %>
 
 <span><%= live_patch "Edit", to: Routes.post_show_path(@socket, :edit, @post), class: "button" %></span> |
 <span><%= live_redirect "Back", to: Routes.post_index_path(@socket, :index) %></span>

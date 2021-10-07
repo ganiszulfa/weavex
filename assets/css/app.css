@@ -1,5 +1,5 @@
 /* This file is for your main application CSS */
-@import "./phoenix.css";
+@import "./weavex.css";
 
 /* Alerts and form errors used by phx.new */
 .alert {
@@ -29,11 +29,13 @@
 .alert:empty {
   display: none;
 }
+/*
 .invalid-feedback {
   color: #a94442;
   display: block;
   margin: -1rem 0 2rem;
 }
+*/
 
 /* LiveView specific classes for your customization */
 .phx-no-feedback.invalid-feedback,

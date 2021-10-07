@@ -5,27 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "Weavex", suffix: " · Phoenix Framework" %>
+    <%= live_title_tag assigns[:page_title] || Application.get_env(:weavex, :site_name), suffix: " · " <> Application.get_env(:weavex, :site_description) %>
+    <link phx-track-static rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link phx-track-static rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body>
-    <header>
-      <section class="container">
-        <nav>
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
-          <%= render "_user_menu.html", assigns %>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo"/>
-        </a>
+    <header class="has-background-white-bis box-shadow mb-5">
+      <section class="container is-max-desktop">
+        <div class="columns is-mobile pt-3 mb-3 is-vcentered">
+          <div class="column is-3-desktop is-6-mobile">
+            <figure class="image p-2">
+              <a href="/"><img src={Routes.static_path(@conn, "/images/logo.svg")}></a>
+            </figure>
+          </div>
+          <div class="column is-1-desktop is-offset-8-desktop is-2-mobile is-offset-4-mobile">
+            <span class="icon">
+              <a id="menu-opener" href="#menu" class="has-text-black-bis"><i class="fas fa-bars"></i></a>
+            </span>
+          </div>
+        </div>
       </section>
     </header>
-    <%= @inner_content %>
+    <div id="menu" class="overlay">
+    	<div class="popup has-background-white-bis has-text-black-bis">
+    		<a class="close has-text-black-ter" href="#">&times;</a>
+    		<div class="content">
+          <%= render "_user_menu.html", assigns %>
+    		</div>
+    	</div>
+    </div>
+    <section class="container is-max-desktop px-2">
+      <%= @inner_content %>
+    </section>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p><%= Application.get_env(:weavex, :site_footer) %></p>
+      </div>
+    </footer>
   </body>
 </html>

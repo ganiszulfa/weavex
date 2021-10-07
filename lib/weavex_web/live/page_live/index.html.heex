@@ -1,43 +1,65 @@
-<h1>Listing Pages</h1>
+<div class="columns">
+  <div class="column is-10 is-offset-1">
+    <h1 class="is-size-3">
+      Listing Pages
+      <span class="is-size-6">
+        <%= live_patch "New Page", to: Routes.page_index_path(@socket, :new) %>
+      </span>
+    </h1>
+    <hr>
 
-<%= if @live_action in [:new, :edit] do %>
-  <%= live_modal WeavexWeb.PageLive.FormComponent,
-    id: @page.id || :new,
-    title: @page_title,
-    action: @live_action,
-    page: @page,
-    return_to: Routes.page_index_path(@socket, :index) %>
-<% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th>Position</th>
-      <th>Page</th>
-      <th>Is published</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="pages">
-    <%= for page <- @pages do %>
-      <tr id={"page-#{page.id}"}>
-        <td><%= page.position %></td>
-        <td>
-          <strong>
-            <%= page.title %>
-          </strong>
-        </td>
-        <td><%= page.is_published %></td>
-
-        <td>
-          <span><%= live_redirect "Show", to: Routes.page_show_path(@socket, :show, page) %></span>
-          <span><%= live_patch "Edit", to: Routes.page_index_path(@socket, :edit, page) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: page.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
+    <%= if @live_action in [:new, :edit] do %>
+      <%= live_modal WeavexWeb.PageLive.FormComponent,
+        id: @page.id || :new,
+        title: @page_title,
+        action: @live_action,
+        page: @page,
+        return_to: Routes.page_index_path(@socket, :index) %>
     <% end %>
-  </tbody>
-</table>
 
-<span><%= live_patch "New Page", to: Routes.page_index_path(@socket, :new) %></span>
+    <table class="table is-fullwidth is-hoverable is-striped">
+      <thead>
+        <tr>
+          <th>Pos.</th>
+          <th>Title</th>
+          <th>Published?</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="pages">
+        <%= for page <- @pages do %>
+          <tr id={"page-#{page.id}"}>
+            <td><%= page.position %></td>
+            <td>
+              <strong>
+                <%= live_redirect page.title, to: Routes.page_show_public_path(@socket, :show_public, Slugger.slugify_downcase(String.slice(page.title, 0..24)), page.id) %>
+              </strong>
+            </td>
+            <td><%= page.is_published %></td>
+
+            <td>
+              <span class="icon-text has-text-link">
+                <span class="icon">
+                  <i class="fas fa-pen">
+                    <%= live_patch ".", to: Routes.page_index_path(@socket, :edit, page) %>
+                  </i>
+                </span>
+              </span>
+            </td>
+            <td>
+              <span class="icon-text has-text-danger">
+                <span class="icon">
+                  <i class="fas fa-trash">
+                    <%= link ".", to: "#", phx_click: "delete", phx_value_id: page.id, data: [confirm: "Are you sure?"] %>
+                  </i>
+                </span>
+              </span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>

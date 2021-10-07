@@ -35,15 +35,9 @@ defmodule WeavexWeb.Router do
     live "/posts/new", PostLive.Index, :new
     live "/posts/:id/edit", PostLive.Index, :edit
 
-    live "/posts/:id", PostLive.Show, :show
-    live "/posts/:id/show/edit", PostLive.Show, :edit
-
     live "/pages", PageLive.Index, :index
     live "/pages/new", PageLive.Index, :new
     live "/pages/:id/edit", PageLive.Index, :edit
-
-    live "/pages/:id", PageLive.Show, :show
-    live "/pages/:id/show/edit", PageLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

@@ -7,7 +7,7 @@ defmodule WeavexWeb.PageLive.ShowPublicComponent do
       <div class="column is-10 is-offset-1">
         <div id={"page-#{@page.id}"} class="page">
           <h2 class="title"><%= @page.title %></h2>
-          <div title="content"><%= @page.content %></div>
+          <div class="content"><%= raw Earmark.as_html!(@page.content) %></div>
         </div>
       </div>
     </div>

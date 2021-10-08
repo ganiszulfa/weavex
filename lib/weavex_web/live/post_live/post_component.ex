@@ -7,7 +7,7 @@ defmodule WeavexWeb.PostLive.PostComponent do
       <h2 class="title">
       <%= live_redirect @post.title, to: Routes.post_show_public_path(@socket, :show_public, Slugger.slugify_downcase(String.slice(@post.title, 0..24)), @post.id) %> </h2>
       <div><em><%= @post.published_at %></em></div>
-      <div title="content"><%= @post.content %></div>
+      <div class="content"><%= raw Earmark.as_html!(@post.content) %></div>
 
       <div>
       </div>

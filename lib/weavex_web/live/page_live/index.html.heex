@@ -1,7 +1,7 @@
 <div class="columns">
   <div class="column is-10 is-offset-1">
-    <h1 class="is-size-3">
-      Listing Pages
+    <h1 class="is-size-4">
+      Page Management
       <span class="is-size-6">
         <%= live_patch "New Page", to: Routes.page_index_path(@socket, :new) %>
       </span>
@@ -24,7 +24,6 @@
           <th>Title</th>
           <th>Published?</th>
           <th></th>
-          <th></th>
         </tr>
       </thead>
       <tbody id="pages">
@@ -39,21 +38,24 @@
             <td><%= page.is_published %></td>
 
             <td>
-              <span class="icon-text has-text-link">
+              <span class="icon-text has-text-link is-size-7">
                 <span class="icon">
                   <i class="fas fa-pen">
-                    <%= live_patch ".", to: Routes.page_index_path(@socket, :edit, page) %>
                   </i>
                 </span>
+                <%= live_patch "Edit", to: Routes.page_index_path(@socket, :edit, page) %>
               </span>
-            </td>
-            <td>
-              <span class="icon-text has-text-danger">
+              <span class="icon-text has-text-danger is-size-7">
                 <span class="icon">
                   <i class="fas fa-trash">
-                    <%= link ".", to: "#", phx_click: "delete", phx_value_id: page.id, data: [confirm: "Are you sure?"] %>
                   </i>
                 </span>
+                <%= link "Delete", 
+                    class: "has-text-danger",
+                    to: "#", 
+                    phx_click: "delete", 
+                    phx_value_id: page.id,
+                    data: [confirm: "Are you sure?"] %>
               </span>
             </td>
           </tr>

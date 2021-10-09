@@ -18,8 +18,8 @@
       <li><%= link "System Dashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
     <% end %>
     <hr>
-    <li><%= @current_user.email %> </li>
-    <li><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "has-text-danger"%></li>
+    <li class="is-size-7"><%= @current_user.email %> </li>
+    <li class="is-size-7"><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "has-text-danger"%></li>
   <% else %>
     <%= if Application.get_env(:weavex, :register?) do %>
     <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>

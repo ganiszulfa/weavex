@@ -1,5 +1,17 @@
-<div id="posts">
+<div class="columns">
+  <div class="column is-12">
+    <h1 class="is-size-3">Posts</h1>
+  </div>
+</div>
+<div class="columns is-multiline is-mobile is-vcentered">
   <%= for post <- @posts do %>
-    <%= live_component @socket, WeavexWeb.PostLive.PostComponent, id: post.id, post: post %>
+  <div class="column is-4 is-size-6 has-text-grey has-text-right pr-0">
+    <%= if post.published_at do %>
+      <%= Calendar.strftime(post.published_at, "%d %b %Y") %>
+    <% end %>
+  </div>
+  <div class="column is-8 is-size-5 has-text-weight-semibold">
+      <%= live_redirect post.title, to: Routes.post_show_public_path(@socket, :show_public, Slugger.slugify_downcase(String.slice(post.title, 0..24)), post.id) %> 
+  </div>
   <% end %>
 </div>

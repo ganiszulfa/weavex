@@ -1,10 +1,29 @@
-<ul>
-<%= if @current_user do %>
-  <li><%= @current_user.email %></li>
-  <li><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
-  <li><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
-<% else %>
-  <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
-  <li><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
-<% end %>
+<ul class="menu">
+  <li><%= link "Home", to: Routes.post_index_public_path(@conn, :index_public) %></li>
+  <%= for page <- @pages do %>
+    <li><%= link page.title, to: Routes.page_show_public_path(@conn, :show_public, Slugger.slugify_downcase(String.slice(page.title, 0..24)), page.id) %></li>
+  <% end %>
+  <hr>
+  <%= if @current_user do %>
+    <p class="menu-label">
+      Management
+    </p>
+    <li><%= link "Pages", to: Routes.page_index_path(@conn, :index) %></li>
+    <li><%= link "Posts", to: Routes.post_index_path(@conn, :index) %></li>
+    <p class="menu-label">
+      Settings
+    </p>
+    <li><%= link "Profile", to: Routes.user_settings_path(@conn, :edit) %></li>
+    <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+      <li><%= link "System Dashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
+    <% end %>
+    <hr>
+    <li class="is-size-7"><%= @current_user.email %> </li>
+    <li class="is-size-7"><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "has-text-danger"%></li>
+  <% else %>
+    <%= if Application.get_env(:weavex, :register?) do %>
+    <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
+    <% end %>
+    <li><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
+  <% end %>
 </ul>

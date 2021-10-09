@@ -2,6 +2,7 @@ defmodule WeavexWeb.Router do
   use WeavexWeb, :router
 
   import WeavexWeb.UserAuth
+  import WeavexWeb.PageLive.Plug
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -11,6 +12,7 @@ defmodule WeavexWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+    plug :fetch_pages
   end
 
   pipeline :api do
@@ -18,15 +20,9 @@ defmodule WeavexWeb.Router do
   end
 
   scope "/", WeavexWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
-  end
-
-  scope "/", WeavexWeb do
     pipe_through [:browser]
 
-    live "/posts", PostLive.IndexPublic, :index_public
+    live "/", PostLive.IndexPublic, :index_public
     live "/posts/:slug/:id", PostLive.ShowPublic, :show_public
 
     live "/pages/:slug/:id", PageLive.ShowPublic, :show_public
@@ -39,15 +35,9 @@ defmodule WeavexWeb.Router do
     live "/posts/new", PostLive.Index, :new
     live "/posts/:id/edit", PostLive.Index, :edit
 
-    live "/posts/:id", PostLive.Show, :show
-    live "/posts/:id/show/edit", PostLive.Show, :edit
-
     live "/pages", PageLive.Index, :index
     live "/pages/new", PageLive.Index, :new
     live "/pages/:id/edit", PageLive.Index, :edit
-
-    live "/pages/:id", PageLive.Show, :show
-    live "/pages/:id/show/edit", PageLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
@@ -89,8 +79,11 @@ defmodule WeavexWeb.Router do
   scope "/", WeavexWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
+    if Application.get_env(:weavex, :register?) do
+      get "/users/register", UserRegistrationController, :new
+      post "/users/register", UserRegistrationController, :create
+    end
+
     get "/users/log_in", UserSessionController, :new
     post "/users/log_in", UserSessionController, :create
     get "/users/reset_password", UserResetPasswordController, :new

@@ -1,5 +1,20 @@
 <main class="container">
-  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+  <%= if message = get_flash(@flash, :info) do %>
+    <article class="message is-info" role="alert"
+    phx-click="lv:clear-flash"
+    phx-value-key="info">
+      <div class="message-body"><%= message %></div>
+    </article>
+  <% end %>
+
+  <%= if message = get_flash(@flash, :error) do %>
+    <article class="message is-danger" role="alert"
+    phx-click="lv:clear-flash"
+    phx-value-key="error">
+      <div class="message-body"><%= message %></div>
+    </article>
+  <% end %>
+
   <%= @inner_content %>
 </main>

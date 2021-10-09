@@ -8,7 +8,11 @@
 import Config
 
 config :weavex,
-  ecto_repos: [Weavex.Repo]
+  ecto_repos: [Weavex.Repo],
+  site_name: "Weavex Blog",
+  site_description: "Blog Written In Phoenix Liveview",
+  site_footer: "© 2021 Weavex. All rights reserved.",
+  register?: true
 
 # Configures the endpoint
 config :weavex, WeavexWeb.Endpoint,

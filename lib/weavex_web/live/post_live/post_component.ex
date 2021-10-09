@@ -3,14 +3,28 @@ defmodule WeavexWeb.PostLive.PostComponent do
 
   def render(assigns) do
     ~L"""
-    <div id={"post-#{@post.id}"} class="post">
-      <h2 class="title">
-      <%= live_redirect @post.title, to: Routes.post_show_public_path(@socket, :show_public, Slugger.slugify_downcase(String.slice(@post.title, 0..24)), @post.id) %>
-      </h2>
-      <div><em><%= @post.published_at %></em></div>
-      <div title="content"><%= @post.content %></div>
-
-      <div>
+    <div class="columns">
+      <div class="column is-10 is-offset-1">
+        <div id={"post-#{@post.id}"} class="post">
+          <h2 class="title">
+          <%= @post.title %>
+          </h2>
+          <%= if @post.published_at do %>
+            <div class="date mb-3">
+              <span class="icon-text has-text-grey">
+                <span class="icon">
+                  <i class="fas fa-calendar"></i>
+                </span>
+                <span>
+                  <%= Calendar.strftime(@post.published_at, "%A, %d %B %Y") %>
+                </span>
+              </span>
+            </div>
+          <% end %>
+          <div class="content"><%= raw Earmark.as_html!(@post.content) %></div>
+          <div>
+          </div>
+        </div>
       </div>
     </div>
     """
